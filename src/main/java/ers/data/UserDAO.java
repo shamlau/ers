@@ -17,6 +17,10 @@ public class UserDAO {
 		this.conn = conn;
 	}
 
+	public void close() throws SQLException {
+		conn.close();
+	}
+	
 	public String getFullName(User user) {
 		return user.getFirstName() + " " + user.getLastName();
 	}
@@ -38,6 +42,7 @@ public class UserDAO {
 		return fullName;
 	}
 
+	// TODO perhaps you should generate this method somewhere else
 	public boolean validUser(String userName, String password) throws SQLException {
 		String sql = "SELECT ERS_USERNAME FROM ERS_USERS WHERE ERS_USERNAME='" + userName + "' AND ERS_PASSWORD='"
 				+ password + "'";
@@ -54,10 +59,22 @@ public class UserDAO {
 		}
 	}
 
-	public void close() throws SQLException {
-		conn.close();
 
+
+	//Works
+	//get All reimbursements by a user use your joins
+	public ResultSet ReimbByUser(String userName) throws SQLException{
+		String sql= "SELECT REIMB_ID, REIMB_AMOUNT, REIMB_SUBMITTED, REIMB_RESOLVED, REIMB_DESCRIPTION, REIMB_STATUS_ID, REIMB_TYPE_ID"
+				+ " FROM ERS_USERS INNER JOIN ERS_REIMBURSEMENT ON ERS_USERS.ERS_USERS_ID=ERS_REIMBURSEMENT.REIMB_AUTHOR "
+				+ "WHERE ERS_USERNAME='"+userName+"'";
+		PreparedStatement stmt=conn.prepareStatement(sql);
+		ResultSet rs=stmt.executeQuery();
+		while (rs.next()){
+			System.out.println(rs.getInt(1)+ " " + rs.getInt(2)+ " "+ rs.getDate(3)+ " "+ rs.getDate(4)+ " "
+					+ rs.getString(5)+ " " + rs.getInt(6)+ " "+ rs.getInt(7));
+		}
+		return rs;
 	}
-	// TODO get user by id/ by username
-
+	
+	
 }

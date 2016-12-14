@@ -26,9 +26,7 @@ public class ServiceLocator {
 		InputStream stream = ServiceLocator.class.getClassLoader().getResourceAsStream("jndi.properties");
 		env = new Properties();
 		try {
-			System.out.println("loadin props");
 			env.load(stream);// loads properties from file
-			System.out.println("props loaded.. " + env.getProperty("ersdb"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -45,7 +43,6 @@ public class ServiceLocator {
 		try {
 			Context ctxt = new InitialContext(env);
 			DataSource ds = (DataSource) ctxt.lookup(env.getProperty("ersdb"));
-			System.out.println(ds);
 			return ds;
 		} catch (NamingException e) {
 			e.printStackTrace();

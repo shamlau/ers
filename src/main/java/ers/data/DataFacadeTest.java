@@ -78,14 +78,15 @@ public class DataFacadeTest {
 
 	public static void main(String[] args) throws Exception {
 		
+		//TODO organize this stuff
 		Connection conn;
 		Connection conn2=ServiceLocator.getErsDatabase().getConnection();
 		
 		Class.forName("oracle.jdbc.OracleDriver");
 		conn=DriverManager.getConnection(URL,USER,PASS);
 		RoleDAO dao = new RoleDAO();
-		dao.selectTest(1);
-		System.out.println("Role DAO worked");
+		//dao.selectTest(1);
+		//System.out.println("Role DAO worked");
 		dao.close();
 		
 		RoleDAO dao4=new RoleDAO(conn2);

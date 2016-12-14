@@ -21,7 +21,11 @@ public class RoleDAO {
 	private static final String URL="jdbc:oracle:thin:@localhost:1521:xe";
 	private static final String USER="ers";
 	private static final String PASS= "welcome1";
-	
+
+	RoleDAO(Connection conn){
+		super();
+		this.conn=conn;
+	}
 
 	public RoleDAO() throws Exception{
 		Class.forName("oracle.jdbc.OracleDriver");
@@ -29,17 +33,14 @@ public class RoleDAO {
 		//conn=ersData.getConnection();
 	}
 	
-	RoleDAO(Connection conn){
-		super();
-		this.conn=conn;
-	}
+
 	
 	public void close() throws SQLException{
 		conn.close();
 	}
 
 	//just testing to make sure this worked
-	public ResultSet selectTest(int id) throws SQLException{
+	/*public ResultSet selectTest(int id) throws SQLException{
 		String sql = "Select USER_ROLE FROM ERS_USER_ROLES WHERE ERS_USER_ROLE_ID=?";
 		PreparedStatement stmt=conn.prepareStatement(sql);
 		stmt.setInt(1, id);
@@ -49,7 +50,7 @@ public class RoleDAO {
 		}
 		return rs;
 
-	}
+	}*/
 
 
 	//Works
