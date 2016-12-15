@@ -79,9 +79,9 @@ public class ReimbursementDAO {
 
 	public ResultSet selectNecessaryPartsOfReimbursments(int num) throws SQLException {
 		// int idNum=user.getUserId();
-		String sql = "SELECT REIMB_ID, REIMB_AMOUNT, REIMB_SUBMITTED, REIMB_STATUS_ID, REIMB_TYPE_ID FROM ERS_REIMBURSEMENT INNER JOIN ERS_USERS  ON ERS_USERS_ID=REIMB_AUTHOR WHERE REIMB_AUTHOR = "
-				+ num;
+		String sql = "SELECT REIMB_ID, REIMB_AMOUNT, REIMB_SUBMITTED, REIMB_STATUS_ID, REIMB_TYPE_ID FROM ERS_REIMBURSEMENT INNER JOIN ERS_USERS  ON ERS_USERS_ID=REIMB_AUTHOR WHERE REIMB_AUTHOR =?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, num);
 		ResultSet rs = stmt.executeQuery();
 		return rs;
 	}
@@ -92,19 +92,20 @@ public class ReimbursementDAO {
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
 		while (rs.next()) {
-			System.out.println(rs.getString(1));
+			//System.out.println(rs.getString(1));
 		}
 		return rs;
 
 	}
 
-	/*
-	 * public List<String> result (ResultSet r){
-	 * 
-	 * return null;
-	 * 
-	 * }
-	 */
+	public List<Reimbursement> rsToList(ResultSet r) throws SQLException{
+		List<Reimbursement> results = new ArrayList<Reimbursement>();
+		while (r.next()){
+			int id=r.getInt("reimbId");
+			
+		}
+		return results;
+	}
 
 	// TODO finish List resultset
 	public List<Reimbursement> result(ResultSet r) throws SQLException {
@@ -155,7 +156,7 @@ public class ReimbursementDAO {
 	// TODO figure what to do with multiple wild cards
 	public void updateResolver(int ReimbId, int resolverId) throws SQLException {
 		Date now = new Date(System.currentTimeMillis());
-		String sql = "UPDATE ERS_REIMBURSEMENT SET REIMB_RESOLVED=" + now + ",REIMB_RESOLVER=(?)";
+		String sql = "UPDATE ERS_REIMBURSEMENT SET REIMB_RESOLVED=" + now + ",REIMB_RESOLVER=? WHERE REIMB_ID=?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, resolverId);
 

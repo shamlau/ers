@@ -94,10 +94,19 @@ public class DataFacadeTest {
 		dao4.close();
 		
 		ReimbursementDAO dao2= new ReimbursementDAO(conn);
-		ResultSet rs=dao2.fullReimbUserJoin("JSMITH");
+		ResultSet rs1=dao2.fullReimbUserJoin("JSMITH");
+		System.out.println("rs get row "+ rs1.getRow());
+		int count=0;
+		System.out.println("rs next "+ rs1.next());
+		while(rs1.next()){
+			count++;
+			System.out.println("anythin?");
+			System.out.println("ReimbDAO test" + rs1.getString(2));
+		}
+		System.out.println("count: " +count);
 		List<Reimbursement> li=new ArrayList<Reimbursement>();
-		List<Reimbursement> l2= result(rs);
-		printList(l2);
+		List<Reimbursement> l2= result(rs1);
+		//printList(l2);
 		//dao2.selectReimbursments(1);
 		//dao2.close();
 		
