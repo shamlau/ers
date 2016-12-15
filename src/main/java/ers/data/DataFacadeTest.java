@@ -15,7 +15,7 @@ import ers.beans.User;
 import ers.data.ReimbursementDAO;;
 public class DataFacadeTest {
 	//Connection conn;
-	private static final String URL="jdbc:oracle:thin:@localhost:1521:xe";
+/*	private static final String URL="jdbc:oracle:thin:@localhost:1521:xe";
 	private static final String USER="ers";
 	private static final String PASS= "welcome1";
 	Connection conn;	
@@ -67,7 +67,7 @@ public class DataFacadeTest {
 		
 		return results;
 		
-	}
+	}*/
 	
 	public static void printList(List<Reimbursement> l){
 		for(Reimbursement r: l){
@@ -79,7 +79,21 @@ public class DataFacadeTest {
 	public static void main(String[] args) throws Exception {
 		
 		//TODO organize this stuff
-		Connection conn;
+		
+		Connection conn=ServiceLocator.getErsDatabase().getConnection();
+		ReimbursementDAO dao = new ReimbursementDAO(conn);
+		List<Reimbursement> list=dao.selectAllReimbursements();
+		for (Reimbursement r: list){
+			System.out.println(r);
+		}
+		
+		UserDAO dao2 = new UserDAO(conn);
+		System.out.println(dao2.isManager("JSDMITH"));
+		UserDAO dao3 = new UserDAO(conn);
+		System.out.println(dao3.getFullName(1));
+		dao.close();
+		dao2.close();
+/*		Connection conn;
 		Connection conn2=ServiceLocator.getErsDatabase().getConnection();
 		
 		Class.forName("oracle.jdbc.OracleDriver");
@@ -118,6 +132,6 @@ public class DataFacadeTest {
 		DataFacadeTest d=new DataFacadeTest();
 		System.out.println(dao3.validUser("JSMITH", "123"));
 		dao2.close();
-		dao3.close();
+		dao3.close();*/
 	}
 }

@@ -25,16 +25,11 @@ public class UserDAO {
 		return user.getFirstName() + " " + user.getLastName();
 	}
 
-	public String getUserRole(User user) {
-		int roleid = user.getRoleId();
-
-		return null;
-	}
-
 	public String getFullName(int id) throws SQLException {
-		String sql = "SELECT USER_FIRST_NAME, USER_LAST_NAME FROM ERS_USERS WHERE ERS_USERS_ID =" + id;
+		String sql = "SELECT USER_FIRST_NAME, USER_LAST_NAME FROM ERS_USERS WHERE ERS_USERS_ID =?";
 		String fullName = "";
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, id);
 		ResultSet rs = stmt.executeQuery();
 		while (rs.next()) {
 			fullName = rs.getString(1) + " " + rs.getString(2);
@@ -58,23 +53,20 @@ public class UserDAO {
 			return true;
 		}
 	}
-
-
-
-	//Works
-	//get All reimbursements by a user use your joins
-	public ResultSet ReimbByUser(String userName) throws SQLException{
-		String sql= "SELECT REIMB_ID, REIMB_AMOUNT, REIMB_SUBMITTED, REIMB_RESOLVED, REIMB_DESCRIPTION, REIMB_STATUS_ID, REIMB_TYPE_ID"
-				+ " FROM ERS_USERS INNER JOIN ERS_REIMBURSEMENT ON ERS_USERS.ERS_USERS_ID=ERS_REIMBURSEMENT.REIMB_AUTHOR "
-				+ "WHERE ERS_USERNAME='"+userName+"'";
-		PreparedStatement stmt=conn.prepareStatement(sql);
-		ResultSet rs=stmt.executeQuery();
-		while (rs.next()){
-			System.out.println(rs.getInt(1)+ " " + rs.getInt(2)+ " "+ rs.getDate(3)+ " "+ rs.getDate(4)+ " "
-					+ rs.getString(5)+ " " + rs.getInt(6)+ " "+ rs.getInt(7));
-		}
-		return rs;
-	}
 	
+	public boolean isManager(String userName) throws SQLException{
+		String sql = "SELECT USER_ROLE_ID FROM ERS_USERS WHERE ERS_USERNAME='"+userName+"'";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		int manager = 1;
+		while (rs.next()){
+			manager = rs.getInt(1);
+		}
+		if(manager == 2){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	
 }

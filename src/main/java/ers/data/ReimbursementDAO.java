@@ -1,5 +1,6 @@
 package ers.data;
 
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -12,7 +13,8 @@ import java.util.List;
 import ers.beans.Reimbursement;
 import ers.beans.ReimbursementStatus;
 import ers.beans.ReimbursementType;
-import ers.beans.User;
+import ers.beans.*;
+
 
 public class ReimbursementDAO {
 
@@ -27,32 +29,8 @@ public class ReimbursementDAO {
 		conn.close();
 	}
 
-	/**
-	 * full insert prolly never gets implemented since you would never file a
-	 * reimbursement that already has a resolver
-	 * 
-	 * @param reimbursment
-	 * @throws SQLException
-	 */
-	public void fullInsert(Reimbursement reimbursment) throws SQLException {
-		Timestamp now = new Timestamp(System.currentTimeMillis());
-		String sql = "insert into ERS_REIMBURSEMENT values (?,?,?,?,?," + "?,?,?,?,?)";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, reimbursment.getReimbId());
-		stmt.setInt(2, reimbursment.getReimbAmount());
-		stmt.setTimestamp(3, now);
-		stmt.setTimestamp(4, now);
-		stmt.setString(5, reimbursment.getDescription());
-		stmt.setBlob(6, reimbursment.getRecipt());
-		stmt.setInt(7, reimbursment.getAuthor());
-		stmt.setInt(8, reimbursment.getResolver());
-		stmt.setInt(9, reimbursment.getStatusId());
-		stmt.setInt(10, reimbursment.getTypeId());
-		stmt.execute();
-	}
-
-	// TODO test this and add adding description part
-	public void insertBasicReimbursement(Reimbursement reimb) throws SQLException {
+	// TODO replace this
+	/*public void insertBasicReimbursement(Reimbursement reimb) throws SQLException {
 		Timestamp now = new Timestamp(System.currentTimeMillis());
 		String sql = "insert into ERS_REIMBURSEMENT (REIMB_ID,REIMB_AMOUNT, REIMB_SUBMITTED"
 				+ ", REIMB_AUTHOR, REIMB_STATUS_ID, REIMB_STATUS_TYPE_ID)" + " values (?,?,?,?,?,?)";
@@ -64,8 +42,15 @@ public class ReimbursementDAO {
 		stmt.setInt(5, reimb.getStatusId());
 		stmt.setInt(6, reimb.getTypeId());
 		stmt.execute();
-	}
+	}*/
+//	//TODO
+//	public void insertBasicReimbursement(Reimbursement reimb){
+//		Timestamp now= new TimeStamp(System.currentTimeMillis());
+//		String sql = "INSERT INTO ERS_REIMBURSEMENT (REIMB_ID, REIMB_AMOUNT, REIMB_SUBMITTED, REIMB_AUTHOR"
+//		
+//	}
 
+	
 	public ResultSet selectReimbursements() throws SQLException {
 		String sql = "SELECT REIMB_ID, REIMB_AMOUNT FROM ERS_REIMBURSEMENT";
 		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -76,6 +61,10 @@ public class ReimbursementDAO {
 		return rs;
 
 	}
+	
+
+	
+
 
 	public ResultSet selectNecessaryPartsOfReimbursments(int num) throws SQLException {
 		// int idNum=user.getUserId();
@@ -98,6 +87,7 @@ public class ReimbursementDAO {
 
 	}
 
+
 	public List<Reimbursement> rsToList(ResultSet r) throws SQLException{
 		List<Reimbursement> results = new ArrayList<Reimbursement>();
 		while (r.next()){
@@ -107,51 +97,122 @@ public class ReimbursementDAO {
 		return results;
 	}
 
-	// TODO finish List resultset
-	public List<Reimbursement> result(ResultSet r) throws SQLException {
-		List<Reimbursement> results = new ArrayList<Reimbursement>();
-		while (r.next()) {
-			int id = r.getInt("reimbId");
-			int amount = r.getInt("reimbAmount");
-			Timestamp submitted = r.getTimestamp("submitted");
-			int statusId = r.getInt("statusId");
-			int author = r.getInt("author");
-			int typeId = r.getInt("typeId");
-			String uFirstName = r.getString("firstName");
-			String uLastName = r.getString("lastName");
-			String uemail = r.getString("email");
-			Reimbursement reimb = new Reimbursement();
-			User reimbAuthor = new User();
+	/**
+	 * Creates list of all reimbursements
+	 * @return
+	 * @throws SQLException
+	 */
+	//I think this works
+	public List<Reimbursement> selectAllReimbursements() throws SQLException{
+		String sql= "SELECT R.REIMB_ID, REIMB_AMOUNT, REIMB_SUBMITTED, REIMB_RESOLVED, REIMB_DESCRIPTION, REIMB_RECEIPT, "
+				+ "REIMB_AUTHOR, REIMB_RESOLVER, R.REIMB_STATUS_ID, R.REIMB_TYPE_ID, REIMB_STATUS, REIMB_TYPE, "
+				+ "ERS_USERNAME, ERS_PASSWORD, USER_FIRST_NAME, USER_LAST_NAME, USER_EMAIL, USER_ROLE_ID, USER_ROLE  "
+				+ "FROM ERS_REIMBURSEMENT R LEFT OUTER JOIN ERS_REIMBURSEMENT_STATUS S "
+				+ "ON R.REIMB_STATUS_ID=S.REIMB_STATUS_ID LEFT OUTER JOIN ERS_REIMBURSEMENT_TYPE T "
+				+ "ON R.REIMB_TYPE_ID=T.REIMB_TYPE_ID INNER JOIN ERS_USERS U "
+				+ "ON U.ERS_USERS_ID=R.REIMB_AUTHOR INNER JOIN ERS_USER_ROLES UR "
+				+ "ON UR.ERS_USER_ROLE_ID=U.USER_ROLE_ID";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		ResultSet rs =stmt.executeQuery();	
+		List<Reimbursement> lr = new ArrayList<Reimbursement>();
+		mapRows(rs, lr);
+		return lr;
+	}
+	
+	/**
+	 * Selects all Reimbursements by specified user by specfied username
+	 * @param Username
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Reimbursement> selectAllReimbursementsFromUser(String Username) throws SQLException{
+		String sql= "SELECT R.REIMB_ID, REIMB_AMOUNT, REIMB_SUBMITTED, REIMB_RESOLVED, REIMB_DESCRIPTION, REIMB_RECEIPT, "
+				+ "REIMB_AUTHOR, REIMB_RESOLVER, R.REIMB_STATUS_ID, R.REIMB_TYPE_ID, REIMB_STATUS, REIMB_TYPE, "
+				+ "ERS_USERNAME, ERS_PASSWORD, USER_FIRST_NAME, USER_LAST_NAME, USER_EMAIL, USER_ROLE_ID, USER_ROLE  "
+				+ "FROM ERS_REIMBURSEMENT R LEFT OUTER JOIN ERS_REIMBURSEMENT_STATUS S "
+				+ "ON R.REIMB_STATUS_ID=S.REIMB_STATUS_ID LEFT OUTER JOIN ERS_REIMBURSEMENT_TYPE T "
+				+ "ON R.REIMB_TYPE_ID=T.REIMB_TYPE_ID INNER JOIN ERS_USERS U "
+				+ "ON U.ERS_USERS_ID=R.REIMB_AUTHOR INNER JOIN ERS_USER_ROLES UR "
+				+ "ON UR.ERS_USER_ROLE_ID=U.USER_ROLE_ID "
+				+ "WHERE ERS_USERNAME='"+Username+"'";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		ResultSet rs =stmt.executeQuery();	
+		//stmt.setString(1, Username);
+		List<Reimbursement> lr = new ArrayList<Reimbursement>();
+		mapRows(rs, lr);
+		return lr;
+	}
+	
+	
+	/**
+	 * So this maps if the beans contain objects of each other will test if something else works
+	 * @param rs
+	 * @param list
+	 * @throws SQLException
+	 */
+	public void mapRows(ResultSet rs, List<Reimbursement> list) throws SQLException{
+		while(rs.next()){
+			//INFO from Reimbursements
+			int id = rs.getInt("REIMB_ID");
+			double amount = rs.getDouble("REIMB_AMOUNT");
+			Timestamp submitted = rs.getTimestamp("REIMB_SUBMITTED");
+			Timestamp resolved= rs.getTimestamp("REIMB_RESOLVED");
+			String description = rs.getString("REIMB_DESCRIPTION");
+			Blob recipt = rs.getBlob("REIMB_RECEIPT");
+			int authorId = rs.getInt("REIMB_AUTHOR");
+			int resolverId = rs.getInt("REIMB_RESOLVER");
+			int statusId = rs.getInt("REIMB_STATUS_ID");
+			int typeId = rs.getInt("REIMB_TYPE_ID");
+			String rstatus = rs.getString("REIMB_STATUS");
+			String rtype = rs.getString("REIMB_TYPE");
+			//INFO from Users
+			String username = rs.getString("ERS_USERNAME");
+			String firstName = rs.getString("USER_FIRST_NAME");
+			String lastName = rs.getString("USER_LAST_NAME");
+			String email = rs.getString("USER_EMAIL");
+			String password = rs.getString("ERS_PASSWORD");//maybe we shouldn't store this
+			int roleId = rs.getInt("USER_ROLE_ID");
+			String uRole = rs.getString("USER_ROLE");
+			
+			//Creating new objects
+			//Create and fill Status obj
 			ReimbursementStatus status = new ReimbursementStatus();
+			status.setReimbStatusId(statusId);
+			status.setReimbStatus(rstatus);
+			//Create and fill Type obj
 			ReimbursementType type = new ReimbursementType();
+			type.setReimbTypeId(typeId);
+			type.setReimbType(rtype);
+			//Create and fill Role Object
+			UserRole userRole = new UserRole(roleId, uRole);
+			//Create and fill author
+			User author = new User();
+			author.setUserId(authorId);
+			author.setUsername(username);
+			author.setPassword(password);
+			author.setFirstName(firstName);
+			author.setLastName(lastName);
+			author.setUserRole(userRole);
+			author.setEmail(email);
+			User resolver = new User();
+			resolver.setUserId(resolverId);//We only have id
 
+			//Create and fill reimbursements
+			Reimbursement reimb=new Reimbursement();			
 			reimb.setReimbId(id);
 			reimb.setReimbAmount(amount);
 			reimb.setSubmitted(submitted);
-
-			reimbAuthor.setUserId(author);
-			reimbAuthor.setFirstName(uFirstName);
-			reimbAuthor.setLastName(uLastName);
-			reimbAuthor.setFirstName(uFirstName);
-			reimbAuthor.setLastName(uLastName);
-			reimbAuthor.setEmail(uemail);
-			reimb.setAuthor(id);
-
-			status.setReimbStatusId(statusId);
-			type.setReimbTypeId(typeId);
-
-			results.add(reimb);
-		}
-
-		return results;
-
-	}
-
-	public void printList(List<Reimbursement> l) {
-		for (Reimbursement r : l) {
-			System.out.println(r.getAuthor());
+			reimb.setResolved(resolved);
+			reimb.setDescription(description);
+			reimb.setRecipt(recipt);
+			reimb.setAuthor(author);
+			reimb.setResolver(resolver);
+			reimb.setStatus(status);
+			reimb.setType(type);
+			list.add(reimb);
 		}
 	}
+	
 
 	// TODO figure what to do with multiple wild cards
 	public void updateResolver(int ReimbId, int resolverId) throws SQLException {
@@ -234,8 +295,5 @@ public class ReimbursementDAO {
 		return rs;
 
 	}
-
-	// TODO select all reimb period multiple joins (maybe also by user)
-	// TODO maprows?
 
 }

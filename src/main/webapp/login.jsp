@@ -32,7 +32,7 @@
 	
 <div class = "container">
 	<div class="wrapper">
-		<form action="validate" method="get" name="Login_Form" class="form-signin">       
+		<form action="validate" method="post" name="Login_Form" class="form-signin">       
 		    <h3 class="form-signin-heading">Please Log In</h3>
 			  <hr class="colorgraph"><br>
 			  

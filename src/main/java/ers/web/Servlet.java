@@ -34,16 +34,14 @@ public class Servlet extends HttpServlet {
 			String pword=req.getParameter("Password");
 			//DataFacadeTest df=new DataFacadeTest();
 			//TODO figure out who to remove DAO from Servlet and call facade?
-			//boolean validUser=df.validateUser(uname,pword);
 			UserDAO dao3=new UserDAO(conn);
 			boolean validUser=dao3.validUser(uname, pword);
 			if(validUser){
-				//req.getRequestDispatcher("postLogin.jsp").forward(req, resp);
-				resp.sendRedirect("postLogin.jsp");
-				//System.out.println("valid user");
+				req.getRequestDispatcher("postLogin.jsp").forward(req, resp);
+				System.out.println("valid user");
 			}else{
 				resp.sendRedirect("fail.html");
-				//System.out.println("failed user");
+				System.out.println("failed user");
 			}
 			
 		}catch (SQLException e){

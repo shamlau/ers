@@ -7,7 +7,23 @@ public class User {
 	private String firstName;
 	private String lastName;
 	private String email;
-	private int roleId;
+	private UserRole userRole;
+
+	public User() {
+		super();
+	}
+
+	public User(int userId, String username, String password, String firstName, String lastName, String email,
+			UserRole userRole) {
+		super();
+		this.userId = userId;
+		this.username = username;
+		Password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.userRole = userRole;
+	}
 
 	public int getUserId() {
 		return userId;
@@ -57,28 +73,18 @@ public class User {
 		this.email = email;
 	}
 
-	public int getRoleId() {
-		return roleId;
+	public UserRole getUserRole() {
+		return userRole;
 	}
 
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
+	public void setUserRole(UserRole userRole) {
+		this.userRole = userRole;
 	}
 
-	public User(int userId, String username, String password, String firstName, String lastName, String email,
-			int roleId) {
-		super();
-		this.userId = userId;
-		this.username = username;
-		Password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.roleId = roleId;
-	}
-
-	public User() {
-		super();
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", username=" + username + ", Password=" + Password + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", email=" + email + ", userRole=" + userRole + "]";
 	}
 
 }

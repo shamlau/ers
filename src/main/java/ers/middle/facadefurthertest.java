@@ -2,17 +2,23 @@ package ers.middle;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+
+import ers.beans.*;
 
 import ers.data.DataFacade;
 
 public class facadefurthertest {
 
 	public static void main(String[] args) throws SQLException {
-		DataFacade facado=new DataFacade();
-		//System.out.println(facado.UserDaoTest("JSMITH"));
-		ResultSet rs=facado.UserDaoTest("JSMITH");
-		System.out.println(rs.getRow());
-		//facado.ReimbdaoTest("JSMITH","PENDING");
+		DataFacade facado = new DataFacade();
+		//List<Reimbursement> listo = facado.selectAllReimbs();
+		//List<Reimbursement> listo = facado.selectReimbsByUser("JSMITH");
+		//for (Reimbursement e : listo){
+		//	System.out.println(e.getAuthor());
+		//}
+		//System.out.println(facado.validateUsers("JSMITH","12w3"));
+		//System.out.println(facado.validateManager("HEADHONCHO"));
 	}
 
 }

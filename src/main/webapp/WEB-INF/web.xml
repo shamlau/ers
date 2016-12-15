@@ -14,4 +14,13 @@
 		<servlet-name>login</servlet-name>
 		<url-pattern>validate</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>manager</servlet-name>
+		<servlet-class>ers.web.Servlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>manager</servlet-name>
+		<url-pattern>managerView</url-pattern>
+	</servlet-mapping>
 </web-app>
