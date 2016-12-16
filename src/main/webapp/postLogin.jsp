@@ -30,7 +30,7 @@
 	<%@ include file="navbar.jsp"%>
 	<h1 class="middlePage">Login (simulated to be) successful</h1>
 	<h2 class="middlePage"> What would you like to do?</h2>
-	<h3 class="middlePage"><a href="reimbursementViews.jsp">View all reimbursements</a></h3>
+	<h3 class="middlePage"><a href="reimb.do">View all reimbursements</a></h3>
 	<h3 class="middlePage"><a href="submission.jsp">Submit new reimbursement</a></h3>
 <body>
 

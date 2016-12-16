@@ -24,5 +24,12 @@
 		<url-pattern>managerView</url-pattern>
 	</servlet-mapping>
 	
-
+	<servlet>
+		<servlet-name>table</servlet-name>
+		<servlet-class>ers.web.DispatcherServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>table</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
 </web-app>

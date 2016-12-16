@@ -35,6 +35,7 @@ public class DataFacade {
 		Connection conn;
 		conn=ServiceLocator.getErsDatabase().getConnection();
 		List<Reimbursement> list = new ReimbursementDAO(conn).selectAllReimbursements();
+		conn.close();
 		return list;
 	}
 	
@@ -42,6 +43,7 @@ public class DataFacade {
 		Connection conn;
 		conn=ServiceLocator.getErsDatabase().getConnection();
 		List<Reimbursement> list = new ReimbursementDAO(conn).selectAllReimbursementsFromUser(Username);
+		conn.close();
 		return list;
 	}
 	
@@ -49,6 +51,7 @@ public class DataFacade {
 		Connection conn;
 		conn=ServiceLocator.getErsDatabase().getConnection();
 		boolean booly = new UserDAO(conn).validUser(username, password);
+		conn.close();
 		return booly;
 	}
 	
@@ -56,6 +59,7 @@ public class DataFacade {
 		Connection conn;
 		conn=ServiceLocator.getErsDatabase().getConnection();
 		boolean boo = new UserDAO(conn).isManager(username);
+		conn.close();
 		return boo;
 	}
 }

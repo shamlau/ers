@@ -40,7 +40,6 @@
 </script>
 <title>Reimbursements</title>
 </head>
-<%@ include file="navbar.jsp"%>
 
 <body>
 	<table id="table_id" class="display">
@@ -49,18 +48,18 @@
 				<th>Reimbursement Number</th>
 				<th>Username</th>
 				<th>Amount</th>
-				<th>Submitted</th>
-				<th>Status</th>
+				<th></th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="reimb" items="${reimbursements}">
 				<tr>
 					<td><c:out value="${reimb.reimbId }"/></td>
-					<td><c:out value="${reimb.author.username }"/></td>
+					<td><c:out value="${reimb.author.user } "/></td>
 					<td><c:out value="${reimb.reimbAmount }"/></td>
-					<td><c:out value="${reimb.submitted }"/></td>
-					<td><c:out value="${reimb.status.reimbStatus }"/></td>
+					<td><c:out value="${reimb.reimbId } "/></td>
+					<td><c:out value="${reimb.reimbId }"/></td>
 
 				</tr>
 			</c:forEach>

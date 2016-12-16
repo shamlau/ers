@@ -35,21 +35,36 @@
     <form role="form" style="width:400px; margin: 0 auto;">
         <h1>Put in Your Submission (Still in progress)</h1>
         
-        <div class="required-field-block">
-            <input type="text" placeholder="Amount" class="form-control">
-            <div class="required-icon">
-                <div class="text">*</div>
-            </div>
-        </div>
-        
-        <div class="required-field-block">
-            <input type="text" placeholder="Type" class="form-control">
-            <div class="required-icon">
-                <div class="text">*</div>
-            </div>
-        </div>
-        
-        <button class="btn btn-primary">Send</button>
+<form class="form-horizontal" role="form" method="post" action="index.php">
+	<div class="form-group">
+		<label for="name" class="col-sm-2 control-label">Amount</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="name" name="name" placeholder="Reimbursement Amount" value="">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="email" class="col-sm-2 control-label">Reimbursement Type</label>
+		<div class="col-sm-10">
+			<input type="email" class="form-control" id="email" name="email" placeholder="Make this a dropdown" value="">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="message" class="col-sm-2 control-label">Description</label>
+		<div class="col-sm-10">
+			<textarea class="form-control" rows="4" name="message"></textarea>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-10 col-sm-offset-2">
+			<input id="submit" name="submit" type="submit" value="Send" class="btn btn-primary">
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-10 col-sm-offset-2">
+			<! Will be used to display an alert to the user>
+		</div>
+	</div>
+</form>
     </form>
 </div>
 </body>
