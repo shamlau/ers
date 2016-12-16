@@ -6,7 +6,7 @@ import ers.data.DataFacade;
 
 public class UserService {
 
-	public boolean validLogin(String Username, String password) throws SQLException{
+	public static boolean validLogin(String Username, String password) throws SQLException{
 		DataFacade facade = new DataFacade();
 		if(facade.validateUsers(Username, password)){
 			return true;

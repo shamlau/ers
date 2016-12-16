@@ -23,4 +23,6 @@
 		<servlet-name>manager</servlet-name>
 		<url-pattern>managerView</url-pattern>
 	</servlet-mapping>
+	
+
 </web-app>

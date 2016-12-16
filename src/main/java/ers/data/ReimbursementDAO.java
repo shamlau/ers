@@ -49,6 +49,23 @@ public class ReimbursementDAO {
 //		String sql = "INSERT INTO ERS_REIMBURSEMENT (REIMB_ID, REIMB_AMOUNT, REIMB_SUBMITTED, REIMB_AUTHOR"
 //		
 //	}
+	
+	//TODO Test
+	public void insertReimbursement(Reimbursement reimb) throws SQLException{
+		Timestamp now = new Timestamp(System.currentTimeMillis());
+		String sql = "INSERT INTO ERS_REIMBURSEMENT "
+				+ "(REIMB_ID, REIMB_AMOUNT, REIMB_SUBMITTED, REIMB_DESCRIPTION, REIMB_AUTHOR, REIMB_STATUS_ID,"
+				+ "REIMB_TYPE_ID) VALUES (?,?,?,?,?,?,?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, reimb.getReimbId());
+		stmt.setDouble(2, reimb.getReimbAmount());
+		stmt.setTimestamp(3, now);
+		stmt.setString(4, reimb.getDescription());
+		stmt.setInt(5, reimb.getAuthor().getUserId());
+		stmt.setInt(6, reimb.getStatus().getReimbStatusId());
+		stmt.setInt(7, reimb.getType().getReimbTypeId());
+		stmt.execute();
+	}
 
 	
 	public ResultSet selectReimbursements() throws SQLException {
@@ -224,21 +241,6 @@ public class ReimbursementDAO {
 		stmt.executeQuery();
 	}
 
-	// Works
-	public ResultSet fullReimbursementSelect() throws SQLException {
-		String sql = "SELECT REIMB_ID, REIMB_AMOUNT, REIMB_SUBMITTED, REIMB_RESOLVED, REIMB_DESCRIPTION, REIMB_AUTHOR, REIMB_STATUS_ID, REIMB_TYPE_ID"
-				+ " FROM ERS_REIMBURSEMENT";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		ResultSet rs = stmt.executeQuery();
-
-//		while (rs.next()) {
-//			System.out.println(rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getDate(3) + " " + rs.getDate(4)
-//					+ rs.getString(5) + rs.getInt(6) + rs.getInt(7) + rs.getInt(8));
-//		}
-
-		return rs;
-
-	}
 	// TODO put in update blob
 	// TODO put in update description
 

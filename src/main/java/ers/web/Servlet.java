@@ -12,12 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import ers.data.DataFacadeTest;
 import ers.data.UserDAO;
+import ers.middle.*;
 
 public class Servlet extends HttpServlet {
 //TODO actually break up this servlet into working parts
-	private static final String URL="jdbc:oracle:thin:@localhost:1521:xe";
-	private static final String USER="ers";
-	private static final String PASS= "welcome1";
+	boolean validUser;
 	Connection conn;
 	
 	@Override
@@ -27,15 +26,12 @@ public class Servlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
 		try{
-			Class.forName("oracle.jdbc.OracleDriver");
-			conn=DriverManager.getConnection(URL,USER,PASS);
 			String uname=req.getParameter("Username");
 			String pword=req.getParameter("Password");
-			//DataFacadeTest df=new DataFacadeTest();
-			//TODO figure out who to remove DAO from Servlet and call facade?
-			UserDAO dao3=new UserDAO(conn);
-			boolean validUser=dao3.validUser(uname, pword);
+			validUser=UserService.validLogin(uname,pword);
+			
 			if(validUser){
 				req.getRequestDispatcher("postLogin.jsp").forward(req, resp);
 				System.out.println("valid user");
@@ -45,8 +41,6 @@ public class Servlet extends HttpServlet {
 			}
 			
 		}catch (SQLException e){
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
