@@ -27,21 +27,19 @@ public class Servlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		try{
-			String uname=req.getParameter("Username");
-			String pword=req.getParameter("Password");
-			validUser=UserService.validLogin(uname,pword);
-			
-			if(validUser){
-				req.getRequestDispatcher("postLogin.jsp").forward(req, resp);
-				System.out.println("valid user");
-			}else{
-				resp.sendRedirect("fail.html");
-				System.out.println("failed user");
-			}
-			
-		}catch (SQLException e){
-			e.printStackTrace();
+		//cont'd from user service
+		//this one puts user object onto session scope
+		//then i can pull user from anywhere
+		String uname=req.getParameter("Username");
+		String pword=req.getParameter("Password");
+		validUser=UserService.validLogin(uname,pword);
+		
+		if(validUser){
+			req.getRequestDispatcher("postLogin.jsp").forward(req, resp);
+			System.out.println("valid user");
+		}else{
+			resp.sendRedirect("fail.html");
+			System.out.println("failed user");
 		}
 	}
 }

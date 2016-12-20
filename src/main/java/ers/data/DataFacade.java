@@ -10,56 +10,168 @@ import ers.beans.*;
 
 public class DataFacade {
 
-	//Use this once you're ready to connectConnection conn=ServiceLocator.getErsDatabase().getConnection();
-	//put yo methods here
-/*	public ResultSet UserDaoTest(String userName) throws SQLException{
-		Connection conn=null;
-		ResultSet rs;
-		
-			conn=ServiceLocator.getErsDatabase().getConnection();
-			rs=new UserDAO(conn).ReimbByUser(userName);
-			conn.close();
-			return rs;
-	}
-	
-	public ResultSet ReimbdaoTest(String username, String Status)throws SQLException{
-		Connection conn;
-		ResultSet rs;
-		conn=ServiceLocator.getErsDatabase().getConnection();
-		rs=new ReimbursementDAO(conn).fullerReimbursmentSelect();
-		conn.close();
-		return rs;
-	}*/
-	
-	public List<Reimbursement> selectAllReimbs() throws SQLException{
-		Connection conn;
-		conn=ServiceLocator.getErsDatabase().getConnection();
-		List<Reimbursement> list = new ReimbursementDAO(conn).selectAllReimbursements();
-		conn.close();
+	public List<Reimbursement> selectAllReimbs() {
+		Connection conn = null;
+		List<Reimbursement> list = null;
+		try {
+			conn = ServiceLocator.getErsDatabase().getConnection();
+			list = new ReimbursementDAO(conn).selectAllReimbursements();
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return list;
 	}
-	
-	public List<Reimbursement> selectReimbsByUser(String Username) throws SQLException{
-		Connection conn;
-		conn=ServiceLocator.getErsDatabase().getConnection();
-		List<Reimbursement> list = new ReimbursementDAO(conn).selectAllReimbursementsFromUser(Username);
-		conn.close();
+
+	public List<Reimbursement> selectReimbsByUser(String Username) {
+		Connection conn = null;
+		List<Reimbursement> list = null;
+		try {
+			conn = ServiceLocator.getErsDatabase().getConnection();
+			list = new ReimbursementDAO(conn).selectAllReimbursementsFromUser(Username);
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
 		return list;
 	}
-	
-	public boolean validateUsers(String username, String password) throws SQLException{
-		Connection conn;
-		conn=ServiceLocator.getErsDatabase().getConnection();
-		boolean booly = new UserDAO(conn).validUser(username, password);
-		conn.close();
+
+	public boolean validateUsers(String username, String password) {
+		Connection conn = null;
+		boolean booly = false;
+		try {
+			conn = ServiceLocator.getErsDatabase().getConnection();
+			booly = new UserDAO(conn).validUser(username, password);
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return booly;
 	}
-	
-	public boolean validateManager(String username) throws SQLException{
-		Connection conn;
-		conn=ServiceLocator.getErsDatabase().getConnection();
-		boolean boo = new UserDAO(conn).isManager(username);
-		conn.close();
+
+	public boolean validateManager(String username) {
+		Connection conn = null;
+		boolean boo = false;
+		try {
+			conn = ServiceLocator.getErsDatabase().getConnection();
+			boo = new UserDAO(conn).isManager(username);
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return boo;
 	}
+
+	public User getUser(String username) {
+		Connection conn = null;
+		User user = null;
+		try {
+			conn = ServiceLocator.getErsDatabase().getConnection();
+			user = new UserDAO(conn).getUser(username);
+			return user;
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.getStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.getStackTrace();
+			}
+		}
+		return user;
+	}
+
+	public void insertReimbursement(double amount, String description, int authorId, int typeId) {
+		Connection conn = null;
+		try {
+			conn = ServiceLocator.getErsDatabase().getConnection();
+			conn.setAutoCommit(false);
+			new ReimbursementDAO(conn).insertReimbursement(amount, description, authorId, typeId);
+			conn.commit();
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.getStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	public void updateReimbursementStatus(int reimbId, int newStatusNumb) {
+		Connection conn = null;
+		try {
+			conn = ServiceLocator.getErsDatabase().getConnection();
+			conn.setAutoCommit(false);
+			new ReimbursementDAO(conn).updateReimbursementStatus(reimbId, newStatusNumb);
+			conn.commit();
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 }

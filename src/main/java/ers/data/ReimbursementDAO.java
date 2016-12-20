@@ -28,42 +28,35 @@ public class ReimbursementDAO {
 	public void close() throws SQLException {
 		conn.close();
 	}
-
-	// TODO replace this
-	/*public void insertBasicReimbursement(Reimbursement reimb) throws SQLException {
-		Timestamp now = new Timestamp(System.currentTimeMillis());
-		String sql = "insert into ERS_REIMBURSEMENT (REIMB_ID,REIMB_AMOUNT, REIMB_SUBMITTED"
-				+ ", REIMB_AUTHOR, REIMB_STATUS_ID, REIMB_STATUS_TYPE_ID)" + " values (?,?,?,?,?,?)";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, reimb.getReimbId());
-		stmt.setInt(2, reimb.getReimbAmount());
-		stmt.setTimestamp(3, now);
-		stmt.setInt(4, reimb.getAuthor());
-		stmt.setInt(5, reimb.getStatusId());
-		stmt.setInt(6, reimb.getTypeId());
-		stmt.execute();
-	}*/
-//	//TODO
-//	public void insertBasicReimbursement(Reimbursement reimb){
-//		Timestamp now= new TimeStamp(System.currentTimeMillis());
-//		String sql = "INSERT INTO ERS_REIMBURSEMENT (REIMB_ID, REIMB_AMOUNT, REIMB_SUBMITTED, REIMB_AUTHOR"
-//		
-//	}
 	
-	//TODO Test
-	public void insertReimbursement(Reimbursement reimb) throws SQLException{
+	
+	//Works
+	public void insertReimbursement(double amount, String description, int authorId, int typeId) throws SQLException{
 		Timestamp now = new Timestamp(System.currentTimeMillis());
 		String sql = "INSERT INTO ERS_REIMBURSEMENT "
 				+ "(REIMB_ID, REIMB_AMOUNT, REIMB_SUBMITTED, REIMB_DESCRIPTION, REIMB_AUTHOR, REIMB_STATUS_ID,"
 				+ "REIMB_TYPE_ID) VALUES (?,?,?,?,?,?,?)";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, reimb.getReimbId());
-		stmt.setDouble(2, reimb.getReimbAmount());
+		stmt.setInt(1, 1);
+		stmt.setDouble(2, amount);
 		stmt.setTimestamp(3, now);
-		stmt.setString(4, reimb.getDescription());
-		stmt.setInt(5, reimb.getAuthor().getUserId());
-		stmt.setInt(6, reimb.getStatus().getReimbStatusId());
-		stmt.setInt(7, reimb.getType().getReimbTypeId());
+		stmt.setString(4, description);
+		stmt.setInt(5, authorId);
+		stmt.setInt(6, 1);//always set to pending
+		stmt.setInt(7, typeId);
+		stmt.execute();
+	}
+	
+	//TODO test
+	public void updateReimbursementStatus(int reimbId, int newStatusNumb) throws SQLException{
+		Timestamp now = new Timestamp(System.currentTimeMillis());
+		String sql = "UPDATE ERS_REIMBURSEMENT "
+				+ "SET REIMB_STATUS_ID = ?, REIMB_RESOLVED = ? "
+				+ "WHERE REIMB_ID= ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, newStatusNumb);
+		stmt.setTimestamp(2, now);
+		stmt.setInt(3, reimbId);
 		stmt.execute();
 	}
 

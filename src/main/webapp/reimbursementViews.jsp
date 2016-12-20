@@ -58,7 +58,7 @@
 				<tr>
 					<td><c:out value="${reimb.reimbId }"/></td>
 					<td><c:out value="${reimb.author.username }"/></td>
-					<td><c:out value="${reimb.reimbAmount }"/></td>
+					<td><fmt:formatNumber type="currency" value="${reimb.reimbAmount }"/></td>
 					<td><c:out value="${reimb.submitted }"/></td>
 					<td><c:out value="${reimb.status.reimbStatus }"/></td>
 
