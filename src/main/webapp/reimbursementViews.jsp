@@ -10,7 +10,7 @@
 	integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
 	crossorigin="anonymous"></script>
 
-<title>Login Page</title>
+<title>Reimbursements</title>
 <!-- Latest compiled and minified CSS -->
 <style type="text/css">
 </style>
@@ -38,34 +38,47 @@
 	src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js">
 	
 </script>
-<title>Reimbursements</title>
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
 </head>
 <%@ include file="navbar.jsp"%>
 
 <body>
+	<h1 class="middlePage">Welcome to Your Personal Reimbursements</h1>
 	<table id="table_id" class="display">
 		<thead>
 			<tr>
-				<th>Reimbursement Number</th>
-				<th>Username</th>
+				<th>#</th>
 				<th>Amount</th>
+				<th>Description</th>
 				<th>Submitted</th>
+				<th>Resolved</th>
 				<th>Status</th>
+				<th>Type</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="reimb" items="${reimbursements}">
-				<tr>
-					<td><c:out value="${reimb.reimbId }"/></td>
-					<td><c:out value="${reimb.author.username }"/></td>
-					<td><fmt:formatNumber type="currency" value="${reimb.reimbAmount }"/></td>
-					<td><c:out value="${reimb.submitted }"/></td>
-					<td><c:out value="${reimb.status.reimbStatus }"/></td>
+					<c:choose>
+						<c:when test="${reimb.author.username == uname}">
+						<tr>
+							<td><c:out value="${reimb.reimbId }" /></td>
+							<td><fmt:formatNumber type="currency"
+									value="${reimb.reimbAmount }" /></td>
+							<td><c:out value="${reimb.description }" /></td>
+							<td><c:out value="${reimb.submitted }" /></td>
+							<td><c:out value="${reimb.resolved }" /></td>
+							<td><c:out value="${reimb.status.reimbStatus }" /></td>
+							<td><c:out value="${reimb.type.reimbType }"></c:out>
+							</tr>
+						</c:when>
 
-				</tr>
+					</c:choose>
 			</c:forEach>
 		</tbody>
 	</table>
+	<p class="middlePage">Submit New Reimbursement</p>
+	<a href="managerReimb.do">Click Me</a>
 
 </body>
 <script>

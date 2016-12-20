@@ -86,5 +86,9 @@ public class User {
 		return "User [userId=" + userId + ", username=" + username + ", Password=" + Password + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", email=" + email + ", userRole=" + userRole + "]";
 	}
+	
+	public String getFullName(){
+		return firstName + " " + lastName;
+	}
 
 }

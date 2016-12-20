@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Login Page</title>
+<title>Employee Reimbursement System</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="styles.css" type="text/css" />
 <style type="text/css">
@@ -32,7 +32,7 @@
 	
 <div class = "container">
 	<div class="wrapper">
-		<form action="validate" method="post" name="Login_Form" class="form-signin">       
+		<form action="validate.do" method="post" name="Login_Form" class="form-signin">       
 		    <h3 class="form-signin-heading">Please Log In</h3>
 			  <hr class="colorgraph"><br>
 			  

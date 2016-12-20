@@ -23,7 +23,8 @@ public class facadefurthertest {
 		User user = facado.getUser(username);
 		System.out.println(user.getUserRole().getUserRole());
 		//facado.insertReimbursement(12.50, "Burgers", 1, 3);
-		//facado.updateReimbursementStatus(12, 3, 7);
+		//facado.updateReimbursementStatus(reimbId, newStatusNumb, resolverId);
+		facado.updateReimbursementStatus(2, 3, 7);
 	}
 
 }

@@ -14,14 +14,26 @@ public class UserService {
 	 * @param password
 	 * @return
 	 */
-	public static  boolean validLogin(String Username, String password){
+	
+	//move the checking to one level up
+	User getUser(String Username){
 		DataFacade facade = new DataFacade();
 		User user = facade.getUser(Username);
-		if (user.getPassword().equals(password)){
-			return true;
-		}
-		return false;
+		return user;
 	}
+	/*
+	 * System.out.println(user);
+		if(user!=null){
+			if (user.getPassword().equals(password) && user!=null){
+				System.out.println("valid login went through");
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+		System.out.println("returning false");
+		return false;
+	 */
 	
 	/**
 	 * Validates if the user is a manager

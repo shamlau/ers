@@ -4,25 +4,6 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	id="WebApp_ID" version="3.1">
 	<display-name>ers</display-name>
-
-	<servlet>
-		<servlet-name>login</servlet-name>
-		<servlet-class>ers.web.Servlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>login</servlet-name>
-		<url-pattern>validate</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>manager</servlet-name>
-		<servlet-class>ers.web.Servlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>manager</servlet-name>
-		<url-pattern>managerView</url-pattern>
-	</servlet-mapping>
 	
 	<servlet>
 		<servlet-name>Dispatch</servlet-name>
