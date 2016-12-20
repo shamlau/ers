@@ -9,7 +9,7 @@ import ers.beans.User;
 import ers.beans.UserRole;
 
 //TODO make this default after you figure out why it doesn't work
-public class UserDAO {
+class UserDAO {
 
 	private Connection conn;
 
@@ -38,7 +38,6 @@ public class UserDAO {
 		return fullName;
 	}
 	
-	// TODO
 	public User getUser(String userName) throws SQLException {
 		String sql = "SELECT ERS_USERS_ID, ERS_USERNAME, ERS_PASSWORD, USER_FIRST_NAME, USER_LAST_NAME, "
 				+ "USER_EMAIL, USER_ROLE_ID, USER_ROLE "
@@ -73,22 +72,6 @@ public class UserDAO {
 
 	// TODO Make this return a user object. select statement selects all fields
 	// do validation
-	public boolean validUser(String userName, String password) throws SQLException {
-		String sql = "SELECT ERS_USERNAME FROM ERS_USERS WHERE ERS_USERNAME='" + userName + "' AND ERS_PASSWORD='"
-				+ password + "'";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		ResultSet rs = stmt.executeQuery();
-		int count = 0;
-		while (rs.next()) {
-			count++;
-		}
-		if (count != 1) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
 	public boolean isManager(String userName) throws SQLException {
 		String sql = "SELECT USER_ROLE_ID FROM ERS_USERS WHERE ERS_USERNAME='" + userName + "'";
 		PreparedStatement stmt = conn.prepareStatement(sql);

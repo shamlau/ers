@@ -33,6 +33,29 @@ public class DataFacade {
 		return list;
 	}
 
+	public String getFullName(User user){
+		Connection conn = null;
+		String fullname = "";
+		try {
+			conn = ServiceLocator.getErsDatabase().getConnection();
+			fullname = new UserDAO(conn).getFullName(user);
+		}catch (SQLException e){
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return fullname;
+	}
+	
 	public List<Reimbursement> selectReimbsByUser(String Username) {
 		Connection conn = null;
 		List<Reimbursement> list = null;
@@ -55,52 +78,6 @@ public class DataFacade {
 		}
 
 		return list;
-	}
-
-	public boolean validateUsers(String username, String password) {
-		Connection conn = null;
-		boolean booly = false;
-		try {
-			conn = ServiceLocator.getErsDatabase().getConnection();
-			booly = new UserDAO(conn).validUser(username, password);
-		} catch (SQLException e) {
-			try {
-				conn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return booly;
-	}
-
-	public boolean validateManager(String username) {
-		Connection conn = null;
-		boolean boo = false;
-		try {
-			conn = ServiceLocator.getErsDatabase().getConnection();
-			boo = new UserDAO(conn).isManager(username);
-		} catch (SQLException e) {
-			try {
-				conn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return boo;
 	}
 
 	public User getUser(String username) {
@@ -151,12 +128,12 @@ public class DataFacade {
 
 	}
 
-	public void updateReimbursementStatus(int reimbId, int newStatusNumb) {
+	public void updateReimbursementStatus(int reimbId, int newStatusNumb, int resolverId) {
 		Connection conn = null;
 		try {
 			conn = ServiceLocator.getErsDatabase().getConnection();
 			conn.setAutoCommit(false);
-			new ReimbursementDAO(conn).updateReimbursementStatus(reimbId, newStatusNumb);
+			new ReimbursementDAO(conn).updateReimbursementStatus(reimbId, newStatusNumb, resolverId);
 			conn.commit();
 		} catch (SQLException e) {
 			try {

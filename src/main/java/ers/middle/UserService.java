@@ -7,11 +7,12 @@ import ers.data.DataFacade;
 
 public class UserService {
 
-	//Validation methods should go here instead of calling methods from lower tiers
-	/*
-	 * Take in a user. and compare user to password
-	 * iff correct return user object
-	 *
+
+	/**
+	 * Validates if the inputed login is a valid login+pw combination
+	 * @param Username
+	 * @param password
+	 * @return
 	 */
 	public static  boolean validLogin(String Username, String password){
 		DataFacade facade = new DataFacade();
@@ -22,11 +23,16 @@ public class UserService {
 		return false;
 	}
 	
-	
-
+	/**
+	 * Validates if the user is a manager
+	 * @param username
+	 * @return
+	 * @throws SQLException
+	 */
 	public boolean isManager(String username) throws SQLException{
 		DataFacade facade = new DataFacade();
-		if(facade.validateManager(username)){
+		User user = facade.getUser(username);
+		if(user.getUserRole().getUserRole().equals("MANAGER")){
 			return true;
 		}
 		return false;

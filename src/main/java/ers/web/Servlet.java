@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ers.data.DataFacadeTest;
-import ers.data.UserDAO;
 import ers.middle.*;
 
 public class Servlet extends HttpServlet {
