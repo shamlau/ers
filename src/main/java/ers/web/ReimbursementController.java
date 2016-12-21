@@ -39,15 +39,15 @@ public class ReimbursementController {
 	void approveReimbursement(HttpServletRequest request, HttpServletResponse response){
 		DataFacade facade = new DataFacade();
 		int reimbId=(int) request.getAttribute("reimbId");
-		//TODO Check if 2 is reimburs approve
-		facade.updateReimbursementStatus(reimbId, 2, 7);
+		//TODO find a way to get the resolver id
+		facade.updateReimbursementStatus(reimbId, 3, 7);
 	}
 	
 	void denyReimbursement(HttpServletRequest request, HttpServletResponse response){
 		DataFacade facade = new DataFacade();
 		int reimbId=(int) request.getAttribute("reimbId");
 		//TODO Check if 2 is reimburs approve
-		facade.updateReimbursementStatus(reimbId, 3, 7);
+		facade.updateReimbursementStatus(reimbId, 2, 7);
 	}
 	
 	void doMain(HttpServletRequest request, HttpServletResponse response){

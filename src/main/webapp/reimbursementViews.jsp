@@ -60,8 +60,8 @@
 		</thead>
 		<tbody>
 			<c:forEach var="reimb" items="${reimbursements}">
-					<c:choose>
-						<c:when test="${reimb.author.username == uname}">
+				<c:choose>
+					<c:when test="${reimb.author.username == uname}">
 						<tr>
 							<td><c:out value="${reimb.reimbId }" /></td>
 							<td><fmt:formatNumber type="currency"
@@ -71,14 +71,48 @@
 							<td><c:out value="${reimb.resolved }" /></td>
 							<td><c:out value="${reimb.status.reimbStatus }" /></td>
 							<td><c:out value="${reimb.type.reimbType }"></c:out>
-							</tr>
-						</c:when>
+						</tr>
+					</c:when>
 
-					</c:choose>
+				</c:choose>
 			</c:forEach>
 		</tbody>
 	</table>
-	<p class="middlePage">Submit New Reimbursement</p>
+	<br />
+	<br />
+	
+	<h3 class="middlePage">Submit New Reimbursement</h3>
+	<br />
+	<div class="container">
+		<form action="submit.do" method="post">
+			<div class="form-group">
+				<label>Reimbursement Amount</label> <input
+					type="number" class="form-control" id="reimbAmount" name="reimbAmount"
+					aria-describedby="emailHelp" placeholder="Enter the Amount for Reimbursement">
+			</div>
+			<div class="form-group">
+				<label for="exampleSelect1">Reimbursement Type</label> <select
+					class="form-control" id="exampleSelect1" placeholder="Select Reimbursement Type">
+					<option>Business</option>
+					<option>Lodging</option>
+					<option>Travel</option>
+					<option>Food</option>
+					<option>Other</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="exampleTextarea">Enter Description of the Reimbursement. Please Enter Serious Comments</label>
+				<textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+			</div>
+			<div class="form-group">
+				<label for="exampleInputFile">File input</label> <input type="file"
+					class="form-control-file" id="exampleInputFile"
+					aria-describedby="fileHelp"> <small id="fileHelp"
+					class="form-text text-muted">This is a placeholder. Not functional yet. Please don't actually insert Blobs yet.</small>
+			</div>
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+	</div>
 </body>
 <script>
 	$(document).ready(function() {

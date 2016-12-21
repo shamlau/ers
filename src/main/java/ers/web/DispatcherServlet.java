@@ -66,11 +66,18 @@ public class DispatcherServlet extends HttpServlet {
 //			}
 			new UserController().checkUser(req, resp);
 		}
+		//TODO these cause nullpointer exceptions find them and destroy them
+		case "/ers/reimbApprove.do":{
+			new ReimbursementController().approveReimbursement(req, resp);
+		}
+		case "/ers/reimbDeny.do":{
+			new ReimbursementController().denyReimbursement(req, resp);
+		}
+		
 //		case "/ers/reimb.do": {
 //			try {
 //				new ReimbursementController().doPersonalReimb(req, resp);
 //			} catch (SQLException e) {
-//				// TODO Auto-generated catch block
 //				e.printStackTrace();
 //			}
 //			break;

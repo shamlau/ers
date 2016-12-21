@@ -1,3 +1,4 @@
+<!-- Manager view of all reimbursements May approve or deny -->
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -81,7 +82,6 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<p class="middlePage">Submit New Reimbursement</p>
 
 </body>
 <script>
