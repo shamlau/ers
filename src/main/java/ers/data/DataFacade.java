@@ -10,7 +10,7 @@ import ers.beans.*;
 
 public class DataFacade {
 
-	public List<Reimbursement> selectAllReimbs() {
+	public List<Reimbursement> selectAllReimbursements() {
 		Connection conn = null;
 		List<Reimbursement> list = null;
 		try {
@@ -56,7 +56,7 @@ public class DataFacade {
 		return fullname;
 	}
 	
-	public List<Reimbursement> selectReimbsByUser(String Username) {
+	public List<Reimbursement> selectAllReimbursementsFromUser(String Username) {
 		Connection conn = null;
 		List<Reimbursement> list = null;
 		try {

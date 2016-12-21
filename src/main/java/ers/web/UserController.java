@@ -30,6 +30,7 @@ public class UserController {
 		if(user.getUsername()!=null){//This user exists
 			if(user.getPassword().equals(password)){//This is a valid login
 				System.out.println(user.getUserRole().getUserRole());
+				req.getSession().setAttribute("user", user);
 				if(user.getUserRole().getUserRole().equals("MANAGER")){//if this is a manager
 					//req.getRequestDispatcher("managerTable.jsp");//not a file now but this should be a jsp?
 					System.out.println("manager reached");
@@ -40,7 +41,6 @@ public class UserController {
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
-					System.out.println("code gets to full reimb.jsp");
 					//req.getRequestDispatcher("fullreimb.jsp").forward(req, resp);
 					
 				}else{

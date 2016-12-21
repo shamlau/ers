@@ -92,7 +92,7 @@
 			</div>
 			<div class="form-group">
 				<label for="exampleSelect1">Reimbursement Type</label> <select
-					class="form-control" id="exampleSelect1" placeholder="Select Reimbursement Type">
+					class="form-control" id="exampleSelect1" name="type" placeholder="Select Reimbursement Type">
 					<option>Business</option>
 					<option>Lodging</option>
 					<option>Travel</option>
@@ -102,7 +102,7 @@
 			</div>
 			<div class="form-group">
 				<label for="exampleTextarea">Enter Description of the Reimbursement. Please Enter Serious Comments</label>
-				<textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+				<textarea class="form-control" id="exampleTextarea" rows="3" name="description"></textarea>
 			</div>
 			<div class="form-group">
 				<label for="exampleInputFile">File input</label> <input type="file"

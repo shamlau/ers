@@ -57,8 +57,8 @@
 				<th>Resolved</th>
 				<th>Status</th>
 				<th>Type</th>
-				<th></th>
-				<th></th>
+				<th>Approve</th>
+				<th>Deny</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -66,7 +66,6 @@
 				<tr>
 					<td><c:out value="${reimb.reimbId }" /></td>
 					<td><c:out value="${reimb.author.fullName } " /></td>
-
 					<td><fmt:formatNumber type="currency"
 							value="${reimb.reimbAmount }" /></td>
 					<td><c:out value="${reimb.description }" /></td>
@@ -74,9 +73,14 @@
 					<td><c:out value="${reimb.resolved }" /></td>
 					<td><c:out value="${reimb.status.reimbStatus }" /></td>
 					<td><c:out value="${reimb.type.reimbType }" /></td>
-					
-					<td><form action='reimbApprove.do' method="post"><button type="submit" name="reimbId" value="<c:out value='${reimb.reimbId}'/>" text="Approve">Approve</button></form></td>
-					<td><form action='reimbDeny.do' method="post"><button type="submit" name="reimbId" value="<c:out value='${reimb.reimbId}'/>" text="Deny">Deny</button></form></td>
+					<td><form action='reimbApprove.do' method="post">
+							<button type="submit" class="btn btn-success" name="reimbId"
+								value="${reimb.reimbId}">Approve</button>
+						</form></td>
+					<td><form action='reimbDeny.do' method="post">
+							<button type="submit" class="btn btn-danger" name="reimbId"
+								value="${reimb.reimbId}">Deny</button>
+						</form></td>
 					<!-- When i submit  the value submitted -->
 				</tr>
 			</c:forEach>

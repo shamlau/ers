@@ -10,7 +10,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 /**
- * Lookup and cache services. Reduces perforamce overhead of looking up services
+ * Lookup and cache services. Reduces performance overhead of looking up services
  * 
  * @author Sam
  *
