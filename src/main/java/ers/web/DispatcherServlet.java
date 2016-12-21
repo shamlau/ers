@@ -34,48 +34,58 @@ public class DispatcherServlet extends HttpServlet {
 		String requestURI = req.getRequestURI();
 		switch (requestURI) {
 		case "/ers/validate.do": {
-			boolean validUserPw = false;
 			String uname = req.getParameter("Username");
 			String pword = req.getParameter("Password");
-			User user = new BusinessDelegate().getUser(uname);
-			System.out.println(user == null);
-			if (user.getUsername() != null) {
-				if (user.getPassword().equals(pword)) {
-					validUserPw = true;
-				} else {
-					validUserPw = false;
-				}
-			}
-
-			// TODO above would call User controller
-			if (validUserPw) {
-				System.out.println("Logged in");
-				req.getRequestDispatcher("reimb.do").forward(req, resp);
-				System.out.println("valid user");
-			} else {
-				resp.sendRedirect("fail.html");
-				System.out.println("failed user");
-			}
+			
+			req.getSession().setAttribute("username", uname);
+			req.getSession().setAttribute("password", pword);
+/**
+ * 			The following was commented out to ensure that dispatch servlet was not used more than necessary
+ */
+//			boolean validUserPw = false;
+//			String uname = req.getParameter("Username");
+//			String pword = req.getParameter("Password");
+//			User user = new BusinessDelegate().getUser(uname);
+//			System.out.println(user == null);
+//			if (user.getUsername() != null) {
+//				if (user.getPassword().equals(pword)) {
+//					validUserPw = true;
+//				} else {
+//					validUserPw = false;
+//				}
+//			}
+//
+//			// TODO above would call User controller
+//			if (validUserPw) {
+//				System.out.println("Logged in");
+//				req.getRequestDispatcher("reimb.do").forward(req, resp);
+//				System.out.println("valid user");
+//			} else {
+//				resp.sendRedirect("fail.html");
+//				System.out.println("failed user");
+//			}
+			new UserController().checkUser(req, resp);
 		}
-		case "/ers/reimb.do": {
-			try {
-				new ReimbursementController().doPersonalReimb(req, resp);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			break;
-		}
-		case "/ers/managerReimb.do": {
-			System.out.println("manager Reimb.do");
-			try {
-				new ReimbursementController().doAllReimb(req, resp);
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-		}
+//		case "/ers/reimb.do": {
+//			try {
+//				new ReimbursementController().doPersonalReimb(req, resp);
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			break;
+//		}
+		
+//		case "/ers/managerReimb.do": {
+//			System.out.println("manager Reimb.do");
+//			try {
+//				new ReimbursementController().doAllReimb(req, resp);
+//
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//
+//		}
 		default: {
 			resp.setStatus(404);
 		}

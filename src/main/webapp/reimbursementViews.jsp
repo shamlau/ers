@@ -1,3 +1,4 @@
+<!-- This is the page that displays all your personal tables -->
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -78,8 +79,6 @@
 		</tbody>
 	</table>
 	<p class="middlePage">Submit New Reimbursement</p>
-	<a href="managerReimb.do">Click Me</a>
-
 </body>
 <script>
 	$(document).ready(function() {
