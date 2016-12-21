@@ -39,7 +39,7 @@ public class DispatcherServlet extends HttpServlet {
 			String pword = req.getParameter("Password");
 			User user = new BusinessDelegate().getUser(uname);
 			System.out.println(user == null);
-			if (user != null) {
+			if (user.getUsername() != null) {
 				if (user.getPassword().equals(pword)) {
 					validUserPw = true;
 				} else {
