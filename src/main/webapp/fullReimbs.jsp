@@ -69,18 +69,39 @@
 					<td><fmt:formatNumber type="currency"
 							value="${reimb.reimbAmount }" /></td>
 					<td><c:out value="${reimb.description }" /></td>
-					<td><c:out value="${reimb.submitted }" /></td>
-					<td><c:out value="${reimb.resolved }" /></td>
+					<td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${reimb.submitted }" /></td>
+					<td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${reimb.resolved }" /></td>
 					<td><c:out value="${reimb.status.reimbStatus }" /></td>
 					<td><c:out value="${reimb.type.reimbType }" /></td>
-					<td><form action='reimbApprove.do' method="post">
+					<td><c:choose>
+						<c:when test="${reimb.status.reimbStatus =='PENDING'}">
+						<form action='reimbApprove.do' method="post">
 							<button type="submit" class="btn btn-success" name="reimbId"
 								value="${reimb.reimbId}">Approve</button>
-						</form></td>
-					<td><form action='reimbDeny.do' method="post">
+						</form>
+						</c:when>
+						<c:otherwise>
+						<form action='reimbApprove.do' method="post">
+							<button type="submit" disabled="disabled" class="btn btn-success" name="reimbId"
+								value="${reimb.reimbId}">Approve</button>
+						</form>
+						</c:otherwise>
+					</c:choose></td>
+					<td><c:choose>
+						<c:when test="${reimb.status.reimbStatus =='PENDING'}">
+						<form action='reimbDeny.do' method="post">
 							<button type="submit" class="btn btn-danger" name="reimbId"
 								value="${reimb.reimbId}">Deny</button>
-						</form></td>
+						</form>
+						</c:when>
+						<c:otherwise>
+						<form action='reimbDeny.do' method="post">
+							<button type="submit" disabled="disabled" class="btn btn-danger" name="reimbId"
+								value="${reimb.reimbId}">Deny</button>
+						</form>
+						</c:otherwise>
+					</c:choose></td>
+
 					<!-- When i submit  the value submitted -->
 				</tr>
 			</c:forEach>

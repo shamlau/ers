@@ -81,6 +81,10 @@ public class DataFacadeTest {
 		//TODO organize this stuff
 		
 		Connection conn=ServiceLocator.getErsDatabase().getConnection();
+		UserDAO dao = new UserDAO(conn);
+		for(int i=1;i<=7;i++){
+			dao.updatePassword(i);
+		}
 //		ReimbursementDAO dao = new ReimbursementDAO(conn);
 //		List<Reimbursement> list=dao.selectAllReimbursements();
 //		for (Reimbursement r: list){
@@ -91,9 +95,9 @@ public class DataFacadeTest {
 //		System.out.println(dao2.isManager("JSDMITH"));
 //		UserDAO dao3 = new UserDAO(conn);
 //		System.out.println(dao3.getFullName(1));
-		UserDAO dao = new UserDAO(conn);
-		System.out.println(dao.getUser("JSMITH"));
-		dao.close();
+//		UserDAO dao = new UserDAO(conn);
+//		System.out.println(dao.getUser("JSMITH"));
+//		dao.close();
 //		dao2.close();
 /*		Connection conn;
 		Connection conn2=ServiceLocator.getErsDatabase().getConnection();

@@ -82,34 +82,11 @@ public class DispatcherServlet extends HttpServlet {
 		}
 		
 		case "/ers/submit.do":{
+			System.out.println("submit.do");
 			new ReimbursementController().insertReimbursement(req, resp);
 			break;
 		}
 		
-//		case "/ers/reimbDeny.do":{
-//			new ReimbursementController().denyReimbursement(req, resp);
-//		}
-
-		
-//		case "/ers/reimb.do": {
-//			try {
-//				new ReimbursementController().doPersonalReimb(req, resp);
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//			break;
-//		}
-		
-//		case "/ers/managerReimb.do": {
-//			System.out.println("manager Reimb.do");
-//			try {
-//				new ReimbursementController().doAllReimb(req, resp);
-//
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//
-//		}
 		default: {
 			resp.setStatus(404);
 		}

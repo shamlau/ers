@@ -21,10 +21,15 @@ public class ReimbursementController {
 		List<Reimbursement> reimbList = facade.selectAllReimbursements();
 		//TODO be able to get the user object here then uncomment it
 //		request.getSession().setAttribute(arg0, arg1);
-		request.setAttribute("reimbursements", reimbList);
-		request.setAttribute("uname", request.getParameter("Username"));
-		System.out.println(request.getParameter("Username"));
-
+		request.getSession().setAttribute("reimbursements", reimbList);
+		if(request.getParameter("Username")!=null){
+			request.getSession().setAttribute("uname", request.getParameter("Username"));
+		}else{
+			User user = (User) request.getSession().getAttribute("user");
+			String username = user.getUsername(); 
+			request.getSession().setAttribute("uname",username);
+		}
+		System.out.println(request.getSession().getAttribute("user"));
 		request.getRequestDispatcher("reimbursementViews.jsp").forward(request, response);
 	}
 
@@ -44,10 +49,7 @@ public class ReimbursementController {
 		User user = (User) request.getSession().getAttribute("user");
 		//System.out.println("we got to where we wanted"+ user.getUsername());
 		System.out.println("reimbid: " +reimbId+ " resolverId: " + user.getUserId());
-		//TODO activate once you're ready
-		//facade.updateReimbursementStatus(reimbId, 3, user.getUserId());
-		//then forward them here
-		//request.getRequestDispatcher("validate.do").forward(request, response);
+		facade.updateReimbursementStatus(reimbId, 3, user.getUserId());
 		try {
 			new ReimbursementController().doAllReimb(request, response);
 		} catch (SQLException e) {
@@ -57,31 +59,32 @@ public class ReimbursementController {
 	
 	void denyReimbursement(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		DataFacade facade = new DataFacade();
-
 		int reimbId= Integer.parseInt(request.getParameter("reimbId"));
 		User user = (User) request.getSession().getAttribute("user");
 		System.out.println("reimbid: " +reimbId+ " resolverId: " + user.getUserId());
+		facade.updateReimbursementStatus(reimbId, 2, user.getUserId());
 		try {
 			new ReimbursementController().doAllReimb(request, response);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		//new UserController().checkUser(request, response);
 	}
 	
 	void insertReimbursement(HttpServletRequest request, HttpServletResponse response){
 		DataFacade facade = new DataFacade();
 		//System.out.println(request.getParameter("reimbAmount"));
 		double amount = Double.parseDouble(request.getParameter("reimbAmount"));
-	String description = request.getParameter("description");
-		//Object object = request.getSession().getAttribute("user").getClass();
-	 //	User user = (User) object;
-		//User user = request.getSession().getAttribute("user").getClass();
-	//	int authorId = user.getUserId();
-		String type = request.getParameter("type");
+		String description = request.getParameter("description");
+		request.getSession().getAttribute("user").getClass();
+		User user = (User) request.getSession().getAttribute("user");
+		String type = user.getUsername();
 		System.out.println("amount : "+ amount+ " desc: "+ description + " type: " + type);
-		//facade.insertReimbursement(amount, description, authorId, typeId);
-			//new UserController().checkUser(request, response);;
+//		try {
+//			new UserController().checkUser(request, response);
+//		} catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		};
 		try {
 			new ReimbursementController().doPersonalReimb(request, response);
 		} catch (IOException e) {

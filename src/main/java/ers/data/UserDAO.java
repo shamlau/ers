@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import ers.beans.User;
 import ers.beans.UserRole;
 
@@ -25,6 +27,8 @@ class UserDAO {
 	public String getFullName(User user) {
 		return user.getFirstName() + " " + user.getLastName();
 	}
+	
+
 
 	public String getFullName(int id) throws SQLException {
 		String sql = "SELECT USER_FIRST_NAME, USER_LAST_NAME FROM ERS_USERS WHERE ERS_USERS_ID =?";
@@ -68,6 +72,32 @@ class UserDAO {
 		}
 		return user;
 
+	}
+
+	public String getPassword(int id) throws SQLException{
+		String sql = "SELECT ERS_PASSWORD FROM ERS_USERS "
+				+ "WHERE ERS_USER_ID=?";
+		String password="";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, id);
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			password = rs.getString(1);
+		}
+		return password;
+	}
+	
+	//TODO complete this
+	public void updatePassword(int id) throws SQLException{
+		String password = getPassword(id);
+		String sql = "UPDATE ERS_USERS"
+				+ "	SET PASSWORD=?"
+				+ "	WHERE ERS_USERS_ID=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		password=BCrypt.hashpw(password, BCrypt.gensalt());
+		stmt.setString(1, password);
+		stmt.setInt(2, id);
+		stmt.executeQuery();
 	}
 
 	// TODO Make this return a user object. select statement selects all fields

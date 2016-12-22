@@ -61,8 +61,6 @@ public class UserController {
 		}else{
 			resp.sendRedirect("fail.html");
 			System.out.println("failed user");
-
-		}
-		
+		}		
 	}
 }
