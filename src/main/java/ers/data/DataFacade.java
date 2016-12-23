@@ -56,6 +56,29 @@ public class DataFacade {
 		return fullname;
 	}
 	
+	public int getTypeId(String type){
+		Connection conn = null;
+		int id = 0;
+		try {
+			conn = ServiceLocator.getErsDatabase().getConnection();
+			id = new TypeDAO(conn).getTypeId(type);
+		}catch (SQLException e){
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return id;
+	}
+	
 	public List<Reimbursement> selectAllReimbursementsFromUser(String Username) {
 		Connection conn = null;
 		List<Reimbursement> list = null;

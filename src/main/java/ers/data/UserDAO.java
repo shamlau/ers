@@ -76,7 +76,7 @@ class UserDAO {
 
 	public String getPassword(int id) throws SQLException{
 		String sql = "SELECT ERS_PASSWORD FROM ERS_USERS "
-				+ "WHERE ERS_USER_ID=?";
+				+ "WHERE ERS_USERS_ID=?";
 		String password="";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, id);
@@ -84,6 +84,7 @@ class UserDAO {
 		while (rs.next()) {
 			password = rs.getString(1);
 		}
+		System.out.println("password is : " +password);
 		return password;
 	}
 	
@@ -91,11 +92,12 @@ class UserDAO {
 	public void updatePassword(int id) throws SQLException{
 		String password = getPassword(id);
 		String sql = "UPDATE ERS_USERS"
-				+ "	SET PASSWORD=?"
+				+ "	SET ERS_PASSWORD=?"
 				+ "	WHERE ERS_USERS_ID=?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		password=BCrypt.hashpw(password, BCrypt.gensalt());
-		stmt.setString(1, password);
+		String hashed=BCrypt.hashpw(password, BCrypt.gensalt());
+		System.out.println("new pw is: " + hashed);
+		stmt.setString(1, hashed);
 		stmt.setInt(2, id);
 		stmt.executeQuery();
 	}

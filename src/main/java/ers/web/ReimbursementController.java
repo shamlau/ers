@@ -75,16 +75,13 @@ public class ReimbursementController {
 		//System.out.println(request.getParameter("reimbAmount"));
 		double amount = Double.parseDouble(request.getParameter("reimbAmount"));
 		String description = request.getParameter("description");
+		String type = request.getParameter("type");
+		int typeid = facade.getTypeId(type);
 		request.getSession().getAttribute("user").getClass();
 		User user = (User) request.getSession().getAttribute("user");
-		String type = user.getUsername();
-		System.out.println("amount : "+ amount+ " desc: "+ description + " type: " + type);
-//		try {
-//			new UserController().checkUser(request, response);
-//		} catch (IOException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		};
+		int authorId = user.getUserId();
+		System.out.println("amount : "+ amount+ " desc: "+ description + " type: " + typeid +" userid: " + authorId);
+		facade.insertReimbursement(amount, description, authorId, typeid);
 		try {
 			new ReimbursementController().doPersonalReimb(request, response);
 		} catch (IOException e) {

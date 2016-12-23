@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import ers.beans.User;
 import ers.middle.BusinessDelegate;
 import ers.middle.UserService;
@@ -23,11 +25,13 @@ public class UserController {
 	public void checkUser(HttpServletRequest req, HttpServletResponse resp) throws IOException{
 		String username = (String) req.getSession().getAttribute("username");
 		String password = (String) req.getSession().getAttribute("password");
-		System.out.println("UN: "+ username);
-		System.out.println("PW: "+ password);
+		//System.out.println("UN: "+ username);
+		//System.out.println("PW: "+ password);
 		User user = new BusinessDelegate().getUser(username);
 		
 		if(user.getUsername()!=null){//This user exists
+			//System.out.println(BCrypt.checkpw(password, user.getPassword()));
+			//if(BCrypt.checkpw(password, user.getPassword())){
 			if(user.getPassword().equals(password)){//This is a valid login
 				System.out.println(user.getUserRole().getUserRole());
 				req.getSession().setAttribute("user", user);

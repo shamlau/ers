@@ -8,11 +8,14 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import ers.beans.Reimbursement;
 import ers.beans.ReimbursementStatus;
 import ers.beans.ReimbursementType;
 import ers.beans.User;
-import ers.data.ReimbursementDAO;;
+import ers.data.ReimbursementDAO;
+import monfox.toolkit.snmp.agent.modules.SnmpV2Mib.SysOREntry;;
 public class DataFacadeTest {
 	//Connection conn;
 /*	private static final String URL="jdbc:oracle:thin:@localhost:1521:xe";
@@ -80,11 +83,23 @@ public class DataFacadeTest {
 		
 		//TODO organize this stuff
 		
+
 		Connection conn=ServiceLocator.getErsDatabase().getConnection();
-		UserDAO dao = new UserDAO(conn);
-		for(int i=1;i<=7;i++){
-			dao.updatePassword(i);
-		}
+		/**
+		 * This hashes the passwords. We've Done it. DO NOT DO THIS AGAIN.
+		 */
+//		UserDAO dao = new UserDAO(conn);
+//		for(int i=1;i<=7;i++){
+//			dao.updatePassword(i);
+//		}
+		//UserDAO dao = new UserDAO(conn);
+		//dao.updatePassword(1);
+		//String Login="123";
+		TypeDAO dao = new TypeDAO(conn);
+		System.out.println(dao.getTypeId("BUSINESS"));
+		//System.out.println(BCrypt.checkpw(Login, dao.getPassword(1)));
+		//System.out.println(BCrypt.hashpw(Login, BCrypt.gensalt()));
+		//System.out.println(dao.getPassword(1));
 //		ReimbursementDAO dao = new ReimbursementDAO(conn);
 //		List<Reimbursement> list=dao.selectAllReimbursements();
 //		for (Reimbursement r: list){
