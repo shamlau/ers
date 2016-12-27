@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TypeDAO {
+class TypeDAO {
 
 	private Connection conn;
 
@@ -14,7 +14,6 @@ public class TypeDAO {
 		this.conn=conn;
 	}
 	
-	//TODO test
 	public String typeFromReimbursement(int ReimbursementId) throws SQLException{
 		String sql ="Select REIMB_TYPE FROM ERS_REIMBURSEMENT_TYPE INNER JOIN ERS_REIMBURSEMENT ON"
 				+ " ERS_REIMBURSEMENT.REIMB_TYPE_ID=ERS_REIMBURSEM	ENT_TYPE.REIMB_TYPE_ID WHERE ERS_REIMBURSEMENT.REIMB_ID=?";		

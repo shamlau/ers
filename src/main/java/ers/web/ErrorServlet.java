@@ -7,6 +7,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Attempt at redirecting users if they reach a error page
+ * Will continue to work on it
+ * @author Sam
+ *
+ */
 public class ErrorServlet extends HttpServlet {
 	
 	@Override
@@ -14,13 +20,10 @@ public class ErrorServlet extends HttpServlet {
 		// error handling logic
 		Exception e = (Exception) req.getAttribute("javax.servlet.error.exception");
 		int statusCode= (Integer) req.getAttribute("javax.servlet.error.status_code");
-		if(e !=null || e instanceof IllegalArgumentException){
-			System.out.println(e.getMessage());
-			resp.sendRedirect("http://wallpapercave.com/wp/r3BPFdb.jpg");
-		}else if (statusCode == 404){
-			resp.sendRedirect("ers404.html");
-		}else if (statusCode == 403){
-			//add reimbursment here
+		if (statusCode == 404){
+			resp.sendRedirect("/ers404.html");
+		}else if (statusCode == 500){
+			resp.sendRedirect("ers500.html");
 		}
 	}
 	

@@ -2,6 +2,12 @@ package ers.web;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+
+/**
+ * Tested JBCrypt here and it works but it doesn't work in the actual project
+ * @author Sam
+ *
+ */
 public class TestJB {
 public static void main(String[] args) {
 	String password ="123";

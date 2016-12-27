@@ -45,7 +45,7 @@
 <%@ include file="navbar.jsp"%>
 
 <body>
-	<h1 class="middlePage">Welcome to Your Personal Reimbursements</h1>
+	<h1 class="middlePage">Welcome to Your Personal Reimbursements, <%= request.getSession().getAttribute("username") %></h1>
 	<table id="table_id" class="display">
 		<thead>
 			<tr>
@@ -67,8 +67,10 @@
 							<td><fmt:formatNumber type="currency"
 									value="${reimb.reimbAmount }" /></td>
 							<td><c:out value="${reimb.description }" /></td>
-							<td><c:out value="${reimb.submitted }" /></td>
-							<td><c:out value="${reimb.resolved }" /></td>
+							<td><fmt:formatDate type="both" dateStyle="short"
+									timeStyle="short" value="${reimb.submitted }" /></td>
+							<td><fmt:formatDate type="both" dateStyle="short"
+									timeStyle="short" value="${reimb.resolved }" /></td>
 							<td><c:out value="${reimb.status.reimbStatus }" /></td>
 							<td><c:out value="${reimb.type.reimbType }"></c:out>
 						</tr>
@@ -87,7 +89,7 @@
 		<form action="submit.do" method="post">
 			<div class="form-group">
 				<label>Reimbursement Amount</label> <input
-					type="number" class="form-control" id="reimbAmount" name="reimbAmount"
+					type="number" min="0" step="0.01" class="form-control" id="reimbAmount" name="reimbAmount"
 					aria-describedby="emailHelp" placeholder="Enter the Amount for Reimbursement">
 			</div>
 			<div class="form-group">

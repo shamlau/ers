@@ -16,6 +16,13 @@ import ers.beans.ReimbursementType;
 import ers.beans.User;
 import ers.data.ReimbursementDAO;
 import monfox.toolkit.snmp.agent.modules.SnmpV2Mib.SysOREntry;;
+
+/**
+ * Old class that tested DAOS
+ * Used JDBC but new project uses JNDI
+ * @author Sam
+ *
+ */
 public class DataFacadeTest {
 	//Connection conn;
 /*	private static final String URL="jdbc:oracle:thin:@localhost:1521:xe";

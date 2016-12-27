@@ -5,14 +5,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
-import ers.beans.UserRole;
 
-public class RoleDAO {
+class RoleDAO {
 
 	@Resource(name= "ers/datasource")
 	private DataSource ersData;
@@ -52,23 +50,16 @@ public class RoleDAO {
 
 	}*/
 
-
-	//Works
-	public String roleFromUser(int UserId) throws SQLException{
-		String sql ="SELECT USER_ROLE FROM ERS_USER_ROLES INNER JOIN ERS_USERS ON"
-				+ " ERS_USER_ROLES.ERS_USER_ROLE_ID=ERS_USERS.USER_ROLE_ID WHERE ERS_USERS_ID=?";		
-		String role="";
-		PreparedStatement stmt=conn.prepareStatement(sql);
+	public String roleFromUser(int UserId) throws SQLException {
+		String sql = "SELECT USER_ROLE FROM ERS_USER_ROLES INNER JOIN ERS_USERS ON"
+				+ " ERS_USER_ROLES.ERS_USER_ROLE_ID=ERS_USERS.USER_ROLE_ID WHERE ERS_USERS_ID=?";
+		String role = "";
+		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, UserId);
-		ResultSet rs=stmt.executeQuery();
-		while(rs.next()){
-			role=rs.getString(1);
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			role = rs.getString(1);
 		}
 		return role;
 	}
-
-	
-	
-
-
 }

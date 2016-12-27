@@ -5,6 +5,12 @@ import java.sql.SQLException;
 import ers.beans.User;
 import ers.data.DataFacade;
 
+/**
+ * Previously used class for checking if user is a valid user and a manager
+ * no longer used
+ * @author Sam
+ *
+ */
 public class UserService {
 
 

@@ -15,12 +15,18 @@ import ers.data.DataFacade;
 
 public class ReimbursementController {
 
+	/**
+	 * Creates a table that allows a user to to view his/her reimbursements and submit a new one
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 * @throws ServletException
+	 * @throws SQLException
+	 */
 	public void doPersonalReimb(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, SQLException {
 		DataFacade facade = new DataFacade();
 		List<Reimbursement> reimbList = facade.selectAllReimbursements();
-		//TODO be able to get the user object here then uncomment it
-//		request.getSession().setAttribute(arg0, arg1);
 		request.getSession().setAttribute("reimbursements", reimbList);
 		if(request.getParameter("Username")!=null){
 			request.getSession().setAttribute("uname", request.getParameter("Username"));
@@ -29,10 +35,18 @@ public class ReimbursementController {
 			String username = user.getUsername(); 
 			request.getSession().setAttribute("uname",username);
 		}
-		System.out.println(request.getSession().getAttribute("user"));
+		//System.out.println(request.getSession().getAttribute("user"));
 		request.getRequestDispatcher("reimbursementViews.jsp").forward(request, response);
 	}
 
+	/**
+	 * Creates the table for managers of all reimbursements by employees
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 * @throws ServletException
+	 * @throws SQLException
+	 */
 	public void doAllReimb(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, SQLException {
 		DataFacade facade = new DataFacade();
@@ -48,8 +62,8 @@ public class ReimbursementController {
 		int reimbId= Integer.parseInt(request.getParameter("reimbId"));
 		User user = (User) request.getSession().getAttribute("user");
 		//System.out.println("we got to where we wanted"+ user.getUsername());
-		System.out.println("reimbid: " +reimbId+ " resolverId: " + user.getUserId());
-		facade.updateReimbursementStatus(reimbId, 3, user.getUserId());
+		//System.out.println("reimbid: " +reimbId+ " resolverId: " + user.getUserId());
+		facade.updateReimbursementStatus(reimbId, 3, user.getUserId());//3 is id for approve but this is not loosely coupled
 		try {
 			new ReimbursementController().doAllReimb(request, response);
 		} catch (SQLException e) {
@@ -61,8 +75,8 @@ public class ReimbursementController {
 		DataFacade facade = new DataFacade();
 		int reimbId= Integer.parseInt(request.getParameter("reimbId"));
 		User user = (User) request.getSession().getAttribute("user");
-		System.out.println("reimbid: " +reimbId+ " resolverId: " + user.getUserId());
-		facade.updateReimbursementStatus(reimbId, 2, user.getUserId());
+		//System.out.println("reimbid: " +reimbId+ " resolverId: " + user.getUserId());
+		facade.updateReimbursementStatus(reimbId, 2, user.getUserId());//2 is id for deny
 		try {
 			new ReimbursementController().doAllReimb(request, response);
 		} catch (SQLException e) {
@@ -80,10 +94,10 @@ public class ReimbursementController {
 		request.getSession().getAttribute("user").getClass();
 		User user = (User) request.getSession().getAttribute("user");
 		int authorId = user.getUserId();
-		System.out.println("amount : "+ amount+ " desc: "+ description + " type: " + typeid +" userid: " + authorId);
+		//System.out.println("amount : "+ amount+ " desc: "+ description + " type: " + typeid +" userid: " + authorId);
 		facade.insertReimbursement(amount, description, authorId, typeid);
 		try {
-			new ReimbursementController().doPersonalReimb(request, response);
+			new ReimbursementController().doPersonalReimb(request, response);//return to personal reimbursements after submitting a reimb
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ServletException e) {

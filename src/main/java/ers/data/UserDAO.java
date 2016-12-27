@@ -10,7 +10,6 @@ import org.mindrot.jbcrypt.BCrypt;
 import ers.beans.User;
 import ers.beans.UserRole;
 
-//TODO make this default after you figure out why it doesn't work
 class UserDAO {
 
 	private Connection conn;
@@ -42,6 +41,12 @@ class UserDAO {
 		return fullName;
 	}
 	
+	/**
+	 * Gets Full User object from a username
+	 * @param userName
+	 * @return
+	 * @throws SQLException
+	 */
 	public User getUser(String userName) throws SQLException {
 		String sql = "SELECT ERS_USERS_ID, ERS_USERNAME, ERS_PASSWORD, USER_FIRST_NAME, USER_LAST_NAME, "
 				+ "USER_EMAIL, USER_ROLE_ID, USER_ROLE "
@@ -54,8 +59,7 @@ class UserDAO {
 		while (rs.next()) {
 			int userId = rs.getInt(1);
 			String username = rs.getString(2);
-			String password = rs.getString(3);// maybe we shouldn't
-															// store this
+			String password = rs.getString(3);
 			String firstName = rs.getString(4);
 			String lastName = rs.getString(5);
 			String email = rs.getString(6);
@@ -74,6 +78,12 @@ class UserDAO {
 
 	}
 
+	/**
+	 * Gets the password from a given userid
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
 	public String getPassword(int id) throws SQLException{
 		String sql = "SELECT ERS_PASSWORD FROM ERS_USERS "
 				+ "WHERE ERS_USERS_ID=?";
@@ -84,11 +94,16 @@ class UserDAO {
 		while (rs.next()) {
 			password = rs.getString(1);
 		}
-		System.out.println("password is : " +password);
+//		System.out.println("password is : " +password);
 		return password;
 	}
 	
-	//TODO complete this
+	/**
+	 * Hashes the password using JBCrypt and updates the User's password
+	 * Does not work yet
+	 * @param id
+	 * @throws SQLException
+	 */
 	public void updatePassword(int id) throws SQLException{
 		String password = getPassword(id);
 		String sql = "UPDATE ERS_USERS"
@@ -102,8 +117,6 @@ class UserDAO {
 		stmt.executeQuery();
 	}
 
-	// TODO Make this return a user object. select statement selects all fields
-	// do validation
 	public boolean isManager(String userName) throws SQLException {
 		String sql = "SELECT USER_ROLE_ID FROM ERS_USERS WHERE ERS_USERNAME='" + userName + "'";
 		PreparedStatement stmt = conn.prepareStatement(sql);

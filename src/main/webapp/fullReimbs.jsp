@@ -45,7 +45,7 @@
 <%@ include file="navbar.jsp"%>
 
 <body>
-	<h1 class="middlePage">Viewing All Reimbursements</h1>
+	<h1 class="middlePage">Viewing All Reimbursements, Manager  <%= request.getSession().getAttribute("username") %></h1>
 	<table id="table_id" class="display">
 		<thead>
 			<tr>

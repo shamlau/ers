@@ -15,7 +15,7 @@ import ers.data.DataFacadeTest;
 import ers.middle.*;
 
 public class DispatcherServlet extends HttpServlet {
-	// TODO actually break up this servlet into working parts
+
 	boolean validUser;
 	Connection conn;
 
@@ -27,66 +27,43 @@ public class DispatcherServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		// cont'd from user service
-		// this one puts user object onto session scope
-		// then i can pull user from anywhere
-
 		String requestURI = req.getRequestURI();
 		switch (requestURI) {
+		
+		/**
+		 * Checks user after logging in
+		 */
 		case "/ers/validate.do": {
 			String uname = req.getParameter("Username");
 			String pword = req.getParameter("Password");
-			
 			req.getSession().setAttribute("username", uname);
 			req.getSession().setAttribute("password", pword);
-/**
- * 			The following was commented out to ensure that dispatch servlet was not used more than necessary
- */
-//			boolean validUserPw = false;
-//			String uname = req.getParameter("Username");
-//			String pword = req.getParameter("Password");
-//			User user = new BusinessDelegate().getUser(uname);
-//			System.out.println(user == null);
-//			if (user.getUsername() != null) {
-//				if (user.getPassword().equals(pword)) {
-//					validUserPw = true;
-//				} else {
-//					validUserPw = false;
-//				}
-//			}
-//
-//			// TODO above would call User controller
-//			if (validUserPw) {
-//				System.out.println("Logged in");
-//				req.getRequestDispatcher("reimb.do").forward(req, resp);
-//				System.out.println("valid user");
-//			} else {
-//				resp.sendRedirect("fail.html");
-//				System.out.println("failed user");
-//			}
 			new UserController().checkUser(req, resp);
 			break;
 		}
-		//TODO these cause nullpointer exceptions find them and destroy them
-		case "/ers/reimbApprove.do":{
-			//System.out.println("return reimbId approve "+req.getParameter("reimbId"));
-			
+
+		/**
+		 * Following 2 cases are for the reimbursement approve/deny buttons
+		 */
+		case "/ers/reimbApprove.do": {
 			new ReimbursementController().approveReimbursement(req, resp);
 			break;
 		}
-		
-		case "/ers/reimbDeny.do":{
-		//	System.out.println("return reimbId deny " + req.getParameter("reimbId"));
+
+		case "/ers/reimbDeny.do": {
 			new ReimbursementController().denyReimbursement(req, resp);
 			break;
 		}
-		
-		case "/ers/submit.do":{
-			System.out.println("submit.do");
+
+		/**
+		 * This is for the submission form
+		 */
+		case "/ers/submit.do": {
+			//System.out.println("submit.do");
 			new ReimbursementController().insertReimbursement(req, resp);
 			break;
 		}
-		
+
 		default: {
 			resp.setStatus(404);
 		}

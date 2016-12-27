@@ -29,42 +29,35 @@ public class UserController {
 		//System.out.println("PW: "+ password);
 		User user = new BusinessDelegate().getUser(username);
 		
-		if(user.getUsername()!=null){//This user exists
-			//System.out.println(BCrypt.checkpw(password, user.getPassword()));
+		if(user.getUsername()!=null){//This user exist
+			//JBCrypt not working at the moment
 			//if(BCrypt.checkpw(password, user.getPassword())){
 			if(user.getPassword().equals(password)){//This is a valid login
 				System.out.println(user.getUserRole().getUserRole());
 				req.getSession().setAttribute("user", user);
 				if(user.getUserRole().getUserRole().equals("MANAGER")){//if this is a manager
-					//req.getRequestDispatcher("managerTable.jsp");//not a file now but this should be a jsp?
-					System.out.println("manager reached");
 					try {
-						new ReimbursementController().doAllReimb(req, resp);
+						new ReimbursementController().doAllReimb(req, resp);//view tables with all reimbursements
 					} catch (ServletException e) {
 						e.printStackTrace();
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
-					//req.getRequestDispatcher("fullreimb.jsp").forward(req, resp);
 					
-				}else{
-					System.out.println("valid user");
+				}else{//not a manager
 					try {
-						new ReimbursementController().doPersonalReimb(req, resp);
+						new ReimbursementController().doPersonalReimb(req, resp);//only views your personal reimbursements
 					} catch (ServletException e) {
 						e.printStackTrace();
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
-					//req.getRequestDispatcher("reimbursementViews.jsp");//not a file now but this should be a jsp?
 				}
 			}else{//invalid password+username combination
 				resp.sendRedirect("fail.html");
-				System.out.println("failed user pw combo");
 			}
 		}else{
 			resp.sendRedirect("fail.html");
-			System.out.println("failed user");
 		}		
 	}
 }

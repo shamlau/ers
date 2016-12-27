@@ -54,7 +54,6 @@ class ReimbursementDAO {
 		stmt.execute();
 	}// insertReimbursments
 
-	// Works
 	/**
 	 * Updates reimbursement to new status
 	 * 
@@ -148,8 +147,7 @@ class ReimbursementDAO {
 			String firstName = rs.getString("USER_FIRST_NAME");
 			String lastName = rs.getString("USER_LAST_NAME");
 			String email = rs.getString("USER_EMAIL");
-			String password = rs.getString("ERS_PASSWORD");// maybe we shouldn't
-															// store this
+			String password = rs.getString("ERS_PASSWORD");
 			int roleId = rs.getInt("USER_ROLE_ID");
 			String uRole = rs.getString("USER_ROLE");
 

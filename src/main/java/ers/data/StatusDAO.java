@@ -17,7 +17,6 @@ class StatusDAO {
 	}
 	
 	
-	//Works
 	public String statusFromReimbursement(int ReimbursementId) throws SQLException{
 		String sql ="Select REIMB_STATUS FROM ERS_REIMBURSEMENT_STATUS INNER JOIN ERS_REIMBURSEMENT ON"
 				+ " ERS_REIMBURSEMENT.REIMB_STATUS_ID=ERS_REIMBURSEMENT_STATUS.REIMB_STATUS_ID WHERE ERS_REIMBURSEMENT.REIMB_ID=?";		

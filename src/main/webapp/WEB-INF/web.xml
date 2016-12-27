@@ -13,4 +13,18 @@
 		<servlet-name>Dispatch</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>error</servlet-name>
+		<servlet-class>ers.web.ErrorServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>error</servlet-name>
+		<url-pattern>/e</url-pattern>
+	</servlet-mapping>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/e</location>
+	</error-page>
 </web-app>
